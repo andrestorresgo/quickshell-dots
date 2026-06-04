@@ -97,7 +97,7 @@ PanelWindow {
             Text {
                 id: collapsedIcon
                 text: "schedule"
-                color: theme.text
+                color: theme.gold
                 font {
                     family: "Material Symbols Rounded"
                     pixelSize: theme.fontSizeMedium + 2
@@ -108,7 +108,7 @@ PanelWindow {
             Text {
                 id: collapsedTime
                 text: Qt.formatDateTime(clock.date, "hh:mm")
-                color: theme.text
+                color: theme.gold
                 font {
                     pixelSize: theme.fontSizeMedium
                     weight: theme.fontWeightBold
@@ -137,7 +137,7 @@ PanelWindow {
             Text {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: Qt.formatDateTime(clock.date, "hh:mm")
-                color: theme.text
+                color: theme.gold
                 font {
                     pixelSize: theme.fontSizeLarge
                     weight: theme.fontWeightBold
