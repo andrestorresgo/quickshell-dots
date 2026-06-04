@@ -33,9 +33,11 @@ PanelWindow {
 
         // Position & Size Layout
         anchors {
-            horizontalCenter: parent.horizontalCenter
+            // horizontalCenter: parent.horizontalCenter
+            left: parent.left
             top: parent.top
             topMargin: theme.islandMarginTop
+            leftMargin: theme.leftMargin
         }
         width: implicitWidth
         height: implicitHeight
@@ -79,22 +81,39 @@ PanelWindow {
             precision: SystemClock.Minutes
         }
 
-        // Collapsed View (Simple Digital Clock)
-        Text {
-            id: collapsedTime
+        // Collapsed View (Simple Digital Clock & Icon)
+        Row {
+            id: collapsedView
             anchors.centerIn: parent
-            text: Qt.formatDateTime(clock.date, "hh:mm")
-            color: theme.text
-            font {
-                pixelSize: theme.fontSizeMedium
-                weight: theme.fontWeightBold
-            }
+            spacing: theme.iconTextSpacing
             opacity: island.expanded ? 0.0 : 1.0
 
             Behavior on opacity {
                 NumberAnimation {
                     duration: theme.textFadeDuration
                 }
+            }
+
+            Text {
+                id: collapsedIcon
+                text: "schedule"
+                color: theme.text
+                font {
+                    family: "Material Symbols Rounded"
+                    pixelSize: theme.fontSizeMedium + 2
+                }
+                anchors.verticalCenter: parent.verticalCenter
+            }
+
+            Text {
+                id: collapsedTime
+                text: Qt.formatDateTime(clock.date, "hh:mm")
+                color: theme.text
+                font {
+                    pixelSize: theme.fontSizeMedium
+                    weight: theme.fontWeightBold
+                }
+                anchors.verticalCenter: parent.verticalCenter
             }
         }
 

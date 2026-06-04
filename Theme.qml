@@ -21,6 +21,7 @@ QtObject {
     // Margins & Radii
     readonly property int islandMarginTop: 8
     readonly property int maxCornerRadius: 26
+    readonly property int leftMargin: 8
 
     // Animations (Durations in ms)
     readonly property int resizeDuration: 500
@@ -39,4 +40,5 @@ QtObject {
 
     // Spacing
     readonly property int columnSpacing: 2
+    readonly property int iconTextSpacing: 6
 }
