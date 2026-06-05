@@ -64,22 +64,23 @@ Rectangle {
     }
 
     function getBrightnessIcon(): string {
-        if (brightnessPercent <= 0) {
-            return "brightness_1";
-        } else if (brightnessPercent <= 14) {
-            return "brightness_2";
-        } else if (brightnessPercent <= 28) {
-            return "brightness_3";
-        } else if (brightnessPercent <= 42) {
-            return "brightness_4";
-        } else if (brightnessPercent <= 56) {
-            return "brightness_5";
-        } else if (brightnessPercent <= 70) {
-            return "brightness_6";
-        } else {
-            return "brightness_7";
-        }
-    }
+    const icons = [
+        "brightness_1",
+        "brightness_2",
+        "brightness_3",
+        "brightness_4",
+        "brightness_5",
+        "brightness_6",
+        "brightness_7"
+    ];
+
+    if (brightnessPercent <= 0) return icons[0];
+    
+    let index = Math.ceil(brightnessPercent / 14);
+    index = Math.min(index, icons.length - 1);
+    
+    return icons[index];
+}
 
     // Process to get current brightness
     Process {
