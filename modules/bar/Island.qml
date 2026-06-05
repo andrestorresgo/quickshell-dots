@@ -109,13 +109,23 @@ Rectangle {
             }
         }
 
-        StyledText {
+        Row {
             anchors.horizontalCenter: parent.horizontalCenter
-            text: Qt.formatDateTime(clock.date, "hh:mm")
-            color: Colours.gold
-            font {
-                pixelSize: Appearance.fontSizeLarge
-                weight: Appearance.fontWeightBold
+            spacing: Appearance.iconTextSpacing
+            MaterialIcon {
+                id: clockIcon
+                icon: "schedule"
+                color: Colours.gold
+                opticalSize: Appearance.fontSizeLarge + 2
+            }
+
+            StyledText {
+                text: Qt.formatDateTime(clock.date, "hh:mm")
+                color: Colours.gold
+                font {
+                    pixelSize: Appearance.fontSizeLarge
+                    weight: Appearance.fontWeightBold
+                }
             }
         }
 
