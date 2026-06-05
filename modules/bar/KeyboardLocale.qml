@@ -17,13 +17,13 @@ Rectangle {
     anchors {
         left: workspaces.right
         top: parent.top
-        topMargin: Appearance.islandMarginTop
-        leftMargin: Appearance.leftMargin
+        topMargin: Appearance.widgetMarginTop
+        leftMargin: Appearance.widgetMarginLeft
     }
 
     width: implicitWidth
-    height: Appearance.islandHeightCollapsed
-    implicitWidth: expanded ? expandedLayout.width + 24 : collapsedLayout.width + 24
+    height: Appearance.widgetHeight
+    implicitWidth: expanded ? expandedLayout.width + Appearance.widgetPaddingHorizontal : collapsedLayout.width + Appearance.widgetPaddingHorizontal
     radius: height / 2
     color: Colours.background
     clip: true

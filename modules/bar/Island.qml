@@ -14,13 +14,13 @@ Rectangle {
     anchors {
         left: parent.left
         top: parent.top
-        topMargin: Appearance.islandMarginTop
-        leftMargin: Appearance.leftMargin
+        topMargin: Appearance.widgetMarginTop
+        leftMargin: Appearance.widgetMarginLeft
     }
     width: implicitWidth
     height: implicitHeight
-    implicitWidth: expanded ? Appearance.islandWidthExpanded : Appearance.islandWidthCollapsed
-    implicitHeight: expanded ? Appearance.islandHeightExpanded : Appearance.islandHeightCollapsed
+    implicitWidth: expanded ? Appearance.islandWidthExpanded : (collapsedView.width + Appearance.widgetPaddingHorizontal)
+    implicitHeight: expanded ? Appearance.islandHeightExpanded : Appearance.widgetHeight
     radius: Math.min(height / 2, Appearance.maxCornerRadius)
 
     // Styling
@@ -116,16 +116,18 @@ Rectangle {
                 id: clockIcon
                 icon: "schedule"
                 color: Colours.gold
-                opticalSize: Appearance.fontSizeLarge + 2
+                opticalSize: Appearance.fontSizeXXLarge + 2
+                anchors.verticalCenter: parent.verticalCenter
             }
 
             StyledText {
                 text: Qt.formatDateTime(clock.date, "hh:mm")
                 color: Colours.gold
                 font {
-                    pixelSize: Appearance.fontSizeLarge
+                    pixelSize: Appearance.fontSizeXXLarge
                     weight: Appearance.fontWeightBold
                 }
+                anchors.verticalCenter: parent.verticalCenter
             }
         }
 

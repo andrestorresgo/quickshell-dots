@@ -11,15 +11,15 @@ Rectangle {
     anchors {
         left: island.right
         top: parent.top
-        topMargin: Appearance.islandMarginTop
-        leftMargin: Appearance.leftMargin
+        topMargin: Appearance.widgetMarginTop
+        leftMargin: Appearance.widgetMarginLeft
     }
 
     // Dynamic Size Layout
     width: implicitWidth
     height: implicitHeight
-    implicitWidth: mainLayout.width + 24
-    implicitHeight: Appearance.islandHeightCollapsed
+    implicitWidth: mainLayout.width + Appearance.widgetPaddingHorizontal
+    implicitHeight: Appearance.widgetHeight
 
     // Styling
     radius: height / 2

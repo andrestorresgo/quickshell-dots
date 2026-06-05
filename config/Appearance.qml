@@ -11,18 +11,18 @@ Singleton {
     readonly property int windowHeight: 160
     readonly property int exclusiveZone: 42
 
-    // Island Dimensions (Collapsed)
-    readonly property int islandWidthCollapsed: 100
-    readonly property int islandHeightCollapsed: 34
+    // Standard Widget Dimensions & Spacing
+    readonly property int widgetHeight: 34
+    readonly property int widgetPaddingHorizontal: 24
+    readonly property int widgetMarginTop: 8
+    readonly property int widgetMarginLeft: 8
 
     // Island Dimensions (Expanded)
     readonly property int islandWidthExpanded: 340
     readonly property int islandHeightExpanded: 120
 
-    // Margins & Radii
-    readonly property int islandMarginTop: 8
+    // Corner Radii
     readonly property int maxCornerRadius: 26
-    readonly property int leftMargin: 8
 
     // Animations (Durations in ms)
     readonly property int resizeDuration: 500
@@ -35,9 +35,12 @@ Singleton {
 
     // Typography
     readonly property int fontWeightBold: Font.DemiBold
-    readonly property int fontSizeSmall: 13
+    readonly property int fontSizeTiny: 10
+    readonly property int fontSizeSmall: 12
     readonly property int fontSizeMedium: 14
-    readonly property int fontSizeLarge: 26
+    readonly property int fontSizeLarge: 18
+    readonly property int fontSizeXLarge: 22
+    readonly property int fontSizeXXLarge: 28
 
     // Spacing
     readonly property int columnSpacing: 2
