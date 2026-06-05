@@ -50,11 +50,11 @@ Rectangle {
         cursorShape: Qt.PointingHandCursor
 
         onClicked: {
-            cycleLayoutProcess.start();
+            cycleLayoutProcess.running = false;
+            cycleLayoutProcess.running = true;
         }
     }
 
-    // TODO: fix keyboard layout not cycling on click
     // Process to cycle keyboard layouts
     Process {
         id: cycleLayoutProcess
