@@ -28,6 +28,7 @@ Variants {
             mask: Region {
                 item: island
                 Region { item: workspaces }
+                Region { item: keyboardLocale }
             }
 
             WlrLayershell.layer: WlrLayershell.Overlay
@@ -39,6 +40,10 @@ Variants {
 
             Workspaces {
                 id: workspaces
+            }
+
+            KeyboardLocale {
+                id: keyboardLocale
             }
         }
     }
