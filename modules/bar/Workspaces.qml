@@ -43,6 +43,15 @@ Rectangle {
             .sort((a, b) => a.id - b.id);
     }
 
+    readonly property var workspaceMap: ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"]
+
+    function getWorkspaceDisplay(id) {
+        if (id >= 1 && id <= 10) {
+            return workspaceMap[id - 1];
+        }
+        return id.toString();
+    }
+
     Row {
         id: mainLayout
         anchors.centerIn: parent
@@ -59,7 +68,7 @@ Rectangle {
                 StyledText {
                     id: textItem
                     anchors.centerIn: parent
-                    text: modelData.id
+                    text: root.getWorkspaceDisplay(modelData.id)
                     color: modelData.focused ? Colours.text : (wsButton.containsMouse ? Colours.text : Colours.muted)
                     font.pixelSize: Appearance.fontSizeMedium
                     font.weight: Appearance.fontWeightBold
