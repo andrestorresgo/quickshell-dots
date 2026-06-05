@@ -25,13 +25,20 @@ Variants {
             // Window Layer & Mask Settings
             exclusionMode: ExclusionMode.Normal
             color: Colours.transparent
-            mask: Region { item: island }
+            mask: Region {
+                item: island
+                Region { item: workspaces }
+            }
 
             WlrLayershell.layer: WlrLayershell.Overlay
             WlrLayershell.exclusiveZone: Appearance.exclusiveZone
 
             Island {
                 id: island
+            }
+
+            Workspaces {
+                id: workspaces
             }
         }
     }
