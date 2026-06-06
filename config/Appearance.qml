@@ -16,6 +16,7 @@ Singleton {
     readonly property int widgetPaddingHorizontal: 24
     readonly property int widgetMarginTop: 8
     readonly property int widgetMarginLeft: 8
+    readonly property int widgetMarginRight: 8
 
     // Island Dimensions (Expanded)
     readonly property int islandWidthExpanded: 340

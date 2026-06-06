@@ -29,7 +29,8 @@ Variants {
                 item: island
                 Region { item: workspaces }
                 Region { item: keyboardLocale }
-                Region { item: volumeAndBrightess }
+                Region { item: volumeAndBrightness }
+                Region { item: battery }
             }
 
             WlrLayershell.layer: WlrLayershell.Overlay
@@ -47,8 +48,12 @@ Variants {
                 id: keyboardLocale
             }
 
-            VolumeAndBrightess {
-                id: volumeAndBrightess
+            VolumeAndBrightness {
+                id: volumeAndBrightness
+            }
+
+            Battery {
+                id: battery
             }
         }
     }
