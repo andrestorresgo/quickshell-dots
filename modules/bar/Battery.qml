@@ -83,7 +83,7 @@ Rectangle {
             text: (battery.ready ? Math.round(battery.percentage * 100) : 0) + "%"
             color: getWidgetColor()
             font {
-                pixelSize: Appearance.fontSizeMedium
+                pixelSize: Appearance.fontSizeMediumLarge
                 weight: Appearance.fontWeightBold
             }
             anchors.verticalCenter: parent.verticalCenter

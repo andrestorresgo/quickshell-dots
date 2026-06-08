@@ -153,7 +153,7 @@ Rectangle {
                 MaterialIcon {
                     icon: root.wifiIcon
                     color: networkArea.containsMouse ? Colours.text : Colours.love
-                    opticalSize: Appearance.fontSizeMedium + 2
+                    opticalSize: Appearance.fontSizeLarge + 2
                     anchors.verticalCenter: parent.verticalCenter
                     Behavior on color { ColorAnimation { duration: 150 } }
                 }
@@ -162,7 +162,7 @@ Rectangle {
                     text: root.wifiText
                     color: networkArea.containsMouse ? Colours.text : Colours.love
                     font {
-                        pixelSize: Appearance.fontSizeMedium
+                        pixelSize: Appearance.fontSizeMediumLarge
                         weight: Appearance.fontWeightBold
                     }
                     anchors.verticalCenter: parent.verticalCenter
@@ -202,7 +202,7 @@ Rectangle {
                 MaterialIcon {
                     icon: root.btIcon
                     color: bluetoothArea.containsMouse ? Colours.text : Colours.gold
-                    opticalSize: Appearance.fontSizeMedium + 2
+                    opticalSize: Appearance.fontSizeLarge + 2
                     anchors.verticalCenter: parent.verticalCenter
                     Behavior on color { ColorAnimation { duration: 150 } }
                 }
@@ -211,7 +211,7 @@ Rectangle {
                     text: root.btText
                     color: bluetoothArea.containsMouse ? Colours.text : Colours.gold
                     font {
-                        pixelSize: Appearance.fontSizeMedium
+                        pixelSize: Appearance.fontSizeMediumLarge
                         weight: Appearance.fontWeightBold
                     }
                     anchors.verticalCenter: parent.verticalCenter

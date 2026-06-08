@@ -117,7 +117,7 @@ Rectangle {
         MaterialIcon {
             icon: "keyboard"
             color: clickArea.pressed ? Colours.subtle : (hoverHandler.hovered ? Colours.text : Colours.foam)
-            opticalSize: Appearance.fontSizeMedium + 2
+            opticalSize: Appearance.fontSizeLarge + 2
             anchors.verticalCenter: parent.verticalCenter
             Behavior on color { ColorAnimation { duration: 150 } }
         }
@@ -126,7 +126,7 @@ Rectangle {
             text: root.shortKeymap
             color: clickArea.pressed ? Colours.subtle : (hoverHandler.hovered ? Colours.text : Colours.foam)
             font {
-                pixelSize: Appearance.fontSizeMedium
+                pixelSize: Appearance.fontSizeMediumLarge
                 weight: Appearance.fontWeightBold
             }
             anchors.verticalCenter: parent.verticalCenter
@@ -150,7 +150,7 @@ Rectangle {
         MaterialIcon {
             icon: "keyboard"
             color: clickArea.pressed ? Colours.subtle : Colours.foam
-            opticalSize: Appearance.fontSizeMedium + 2
+            opticalSize: Appearance.fontSizeLarge + 2
             anchors.verticalCenter: parent.verticalCenter
         }
 
@@ -158,7 +158,7 @@ Rectangle {
             text: root.currentKeymap
             color: clickArea.pressed ? Colours.subtle : Colours.text
             font {
-                pixelSize: Appearance.fontSizeMedium
+                pixelSize: Appearance.fontSizeMediumLarge
                 weight: Appearance.fontWeightBold
             }
             anchors.verticalCenter: parent.verticalCenter

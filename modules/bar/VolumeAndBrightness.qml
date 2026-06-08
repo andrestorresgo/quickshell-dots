@@ -156,17 +156,17 @@ Rectangle {
 
                 MaterialIcon {
                     icon: root.muted ? "volume_off" : (root.volume === 0 ? "volume_mute" : (root.volume < 0.5 ? "volume_down" : "volume_up"))
-                    color: volumeArea.containsMouse ? Colours.text : Colours.foam
-                    opticalSize: Appearance.fontSizeMedium + 2
+                    color: volumeArea.containsMouse ? Colours.text : Colours.gold
+                    opticalSize: Appearance.fontSizeLarge + 2
                     anchors.verticalCenter: parent.verticalCenter
                     Behavior on color { ColorAnimation { duration: 150 } }
                 }
 
                 StyledText {
                     text: `${Math.round(root.volume * 100)}%`
-                    color: volumeArea.containsMouse ? Colours.text : Colours.foam
+                    color: volumeArea.containsMouse ? Colours.text : Colours.iris
                     font {
-                        pixelSize: Appearance.fontSizeMedium
+                        pixelSize: Appearance.fontSizeMediumLarge
                         weight: Appearance.fontWeightBold
                     }
                     anchors.verticalCenter: parent.verticalCenter
@@ -208,7 +208,7 @@ Rectangle {
                 MaterialIcon {
                     icon: getBrightnessIcon()
                     color: brightnessArea.containsMouse ? Colours.text : Colours.foam
-                    opticalSize: Appearance.fontSizeMedium + 2
+                    opticalSize: Appearance.fontSizeLarge + 2
                     anchors.verticalCenter: parent.verticalCenter
                     Behavior on color { ColorAnimation { duration: 150 } }
                 }
@@ -217,7 +217,7 @@ Rectangle {
                     text: `${root.brightnessPercent}%`
                     color: brightnessArea.containsMouse ? Colours.text : Colours.foam
                     font {
-                        pixelSize: Appearance.fontSizeMedium
+                        pixelSize: Appearance.fontSizeMediumLarge
                         weight: Appearance.fontWeightBold
                     }
                     anchors.verticalCenter: parent.verticalCenter

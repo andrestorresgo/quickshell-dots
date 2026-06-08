@@ -76,7 +76,7 @@ Rectangle {
             id: collapsedIcon
             icon: "schedule"
             color: Colours.gold
-            opticalSize: Appearance.fontSizeMedium + 2
+            opticalSize: Appearance.fontSizeLarge + 2
             anchors.verticalCenter: parent.verticalCenter
         }
 
@@ -85,7 +85,7 @@ Rectangle {
             text: Qt.formatDateTime(clock.date, "hh:mm")
             color: Colours.gold
             font {
-                pixelSize: Appearance.fontSizeMedium
+                pixelSize: Appearance.fontSizeMediumLarge
                 weight: Appearance.fontWeightBold
             }
             anchors.verticalCenter: parent.verticalCenter
