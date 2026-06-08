@@ -9,10 +9,10 @@ Singleton {
 
     // Window Properties
     readonly property int windowHeight: 160
-    readonly property int exclusiveZone: 42
+    readonly property int exclusiveZone: widgetHeight + widgetMarginTop
 
     // Standard Widget Dimensions & Spacing
-    readonly property int widgetHeight: 34
+    readonly property int widgetHeight: 40
     readonly property int widgetPaddingHorizontal: 24
     readonly property int widgetMarginTop: 8
     readonly property int widgetMarginLeft: 8
