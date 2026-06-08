@@ -31,6 +31,7 @@ Variants {
                 Region { item: keyboardLocale }
                 Region { item: volumeAndBrightness }
                 Region { item: battery }
+                Region { item: connectivity }
             }
 
             WlrLayershell.layer: WlrLayershell.Overlay
@@ -54,6 +55,10 @@ Variants {
 
             Battery {
                 id: battery
+            }
+
+            Connectivity {
+                id: connectivity
             }
         }
     }
