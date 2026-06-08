@@ -32,6 +32,45 @@ Rectangle {
     readonly property bool muted: Pipewire.defaultAudioSink?.audio?.muted ?? false
     property int brightnessPercent: 0
 
+    // OSD State Management
+    property string state: "normal"
+    property bool isReady: false
+
+    Timer {
+        id: startupTimer
+        interval: 1500
+        running: true
+        onTriggered: root.isReady = true
+    }
+
+    Timer {
+        id: osdTimer
+        interval: 2500
+        onTriggered: root.state = "normal"
+    }
+
+    // Change listeners to trigger OSD state
+    onVolumeChanged: {
+        if (root.isReady) {
+            root.state = "volume";
+            osdTimer.restart();
+        }
+    }
+
+    onMutedChanged: {
+        if (root.isReady) {
+            root.state = "volume";
+            osdTimer.restart();
+        }
+    }
+
+    onBrightnessPercentChanged: {
+        if (root.isReady) {
+            root.state = "brightness";
+            osdTimer.restart();
+        }
+    }
+
     // Tracker to ensure PipeWire sink properties are actively updated
     PwObjectTracker {
         id: audioTracker
@@ -64,23 +103,23 @@ Rectangle {
     }
 
     function getBrightnessIcon(): string {
-    const icons = [
-        "brightness_1",
-        "brightness_2",
-        "brightness_3",
-        "brightness_4",
-        "brightness_5",
-        "brightness_6",
-        "brightness_7"
-    ];
+        const icons = [
+            "brightness_1",
+            "brightness_2",
+            "brightness_3",
+            "brightness_4",
+            "brightness_5",
+            "brightness_6",
+            "brightness_7"
+        ];
 
-    if (brightnessPercent <= 0) return icons[0];
-    
-    let index = Math.ceil(brightnessPercent / 14);
-    index = Math.min(index, icons.length - 1);
-    
-    return icons[index];
-}
+        if (brightnessPercent <= 0) return icons[0];
+        
+        let index = Math.ceil(brightnessPercent / 14);
+        index = Math.min(index, icons.length - 1);
+        
+        return icons[index];
+    }
 
     // Process to get current brightness
     Process {
@@ -127,18 +166,29 @@ Rectangle {
     Row {
         id: mainLayout
         anchors.centerIn: parent
-        spacing: 12
+        spacing: root.state === "normal" ? 12 : 0
+
+        Behavior on spacing { NumberAnimation { duration: 250; easing.type: Easing.InOutQuad } }
 
         // Volume Controller Region
         MouseArea {
             id: volumeArea
-            width: volumeLayout.width
+            width: root.state === "brightness" ? 0 : volumeLayout.width
             height: root.height
+            opacity: root.state === "brightness" ? 0 : 1
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
+            clip: true
+
+            Behavior on width { NumberAnimation { duration: 250; easing.type: Easing.InOutQuad } }
+            Behavior on opacity { NumberAnimation { duration: 200 } }
 
             onClicked: {
                 root.toggleMute();
+                if (root.isReady) {
+                    root.state = "volume";
+                    osdTimer.restart();
+                }
             }
 
             onWheel: (wheel) => {
@@ -147,19 +197,59 @@ Rectangle {
                 } else if (wheel.angleDelta.y < 0) {
                     root.adjustVolume(-0.02);
                 }
+                if (root.isReady) {
+                    root.state = "volume";
+                    osdTimer.restart();
+                }
             }
 
             Row {
                 id: volumeLayout
                 anchors.verticalCenter: parent.verticalCenter
-                spacing: Appearance.iconTextSpacing
+                spacing: 0
 
                 MaterialIcon {
+                    id: volumeIcon
                     icon: root.muted ? "volume_off" : (root.volume === 0 ? "volume_mute" : (root.volume < 0.5 ? "volume_down" : "volume_up"))
                     color: volumeArea.containsMouse ? Colours.text : Colours.gold
                     opticalSize: Appearance.fontSizeLarge + 2
                     anchors.verticalCenter: parent.verticalCenter
                     Behavior on color { ColorAnimation { duration: 150 } }
+                }
+
+                Item {
+                    width: root.state === "volume" ? 8 : Appearance.iconTextSpacing
+                    height: 1
+                    Behavior on width { NumberAnimation { duration: 250; easing.type: Easing.InOutQuad } }
+                }
+
+                // Volume Progress Bar
+                Rectangle {
+                    id: volumeProgressBar
+                    width: root.state === "volume" ? 120 : 0
+                    height: 8
+                    radius: 4
+                    color: Colours.overlay
+                    clip: true
+                    anchors.verticalCenter: parent.verticalCenter
+                    opacity: root.state === "volume" ? 1 : 0
+
+                    Rectangle {
+                        id: volumeProgressFill
+                        width: parent.width * root.volume
+                        height: parent.height
+                        radius: parent.radius
+                        color: root.muted ? Colours.muted : Colours.iris
+                    }
+
+                    Behavior on width { NumberAnimation { duration: 250; easing.type: Easing.InOutQuad } }
+                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                }
+
+                Item {
+                    width: root.state === "volume" ? 8 : 0
+                    height: 1
+                    Behavior on width { NumberAnimation { duration: 250; easing.type: Easing.InOutQuad } }
                 }
 
                 StyledText {
@@ -177,20 +267,28 @@ Rectangle {
 
         Rectangle {
             id: separator
-            width: 1
+            width: root.state === "normal" ? 1 : 0
             height: 12
             color: Colours.muted
-            opacity: 0.5
+            opacity: root.state === "normal" ? 0.5 : 0
             anchors.verticalCenter: parent.verticalCenter
+
+            Behavior on width { NumberAnimation { duration: 250; easing.type: Easing.InOutQuad } }
+            Behavior on opacity { NumberAnimation { duration: 200 } }
         }
 
         // Brightness Controller Region
         MouseArea {
             id: brightnessArea
-            width: brightnessLayout.width
+            width: root.state === "volume" ? 0 : brightnessLayout.width
             height: root.height
+            opacity: root.state === "volume" ? 0 : 1
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
+            clip: true
+
+            Behavior on width { NumberAnimation { duration: 250; easing.type: Easing.InOutQuad } }
+            Behavior on opacity { NumberAnimation { duration: 200 } }
 
             onWheel: (wheel) => {
                 if (wheel.angleDelta.y > 0) {
@@ -198,12 +296,16 @@ Rectangle {
                 } else if (wheel.angleDelta.y < 0) {
                     root.adjustBrightness("5%-");
                 }
+                if (root.isReady) {
+                    root.state = "brightness";
+                    osdTimer.restart();
+                }
             }
 
             Row {
                 id: brightnessLayout
                 anchors.verticalCenter: parent.verticalCenter
-                spacing: Appearance.iconTextSpacing
+                spacing: 0
 
                 MaterialIcon {
                     icon: getBrightnessIcon()
@@ -211,6 +313,41 @@ Rectangle {
                     opticalSize: Appearance.fontSizeLarge + 2
                     anchors.verticalCenter: parent.verticalCenter
                     Behavior on color { ColorAnimation { duration: 150 } }
+                }
+
+                Item {
+                    width: root.state === "brightness" ? 8 : Appearance.iconTextSpacing
+                    height: 1
+                    Behavior on width { NumberAnimation { duration: 250; easing.type: Easing.InOutQuad } }
+                }
+
+                // Brightness Progress Bar
+                Rectangle {
+                    id: brightnessProgressBar
+                    width: root.state === "brightness" ? 120 : 0
+                    height: 8
+                    radius: 4
+                    color: Colours.overlay
+                    clip: true
+                    anchors.verticalCenter: parent.verticalCenter
+                    opacity: root.state === "brightness" ? 1 : 0
+
+                    Rectangle {
+                        id: brightnessProgressFill
+                        width: parent.width * (root.brightnessPercent / 100.0)
+                        height: parent.height
+                        radius: parent.radius
+                        color: Colours.foam
+                    }
+
+                    Behavior on width { NumberAnimation { duration: 250; easing.type: Easing.InOutQuad } }
+                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                }
+
+                Item {
+                    width: root.state === "brightness" ? 8 : 0
+                    height: 1
+                    Behavior on width { NumberAnimation { duration: 250; easing.type: Easing.InOutQuad } }
                 }
 
                 StyledText {
