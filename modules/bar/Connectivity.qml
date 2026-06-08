@@ -23,7 +23,6 @@ Rectangle {
     radius: height / 2
     color: Colours.background
 
-    // Smooth Width Transition behavior matching clock/workspaces/keyboardLocale
     Behavior on implicitWidth {
         NumberAnimation {
             duration: Appearance.resizeDuration
@@ -46,16 +45,14 @@ Rectangle {
     property string btText: "OFF"
     property string btDeviceName: ""
 
-    // Resolve helper script path
     readonly property string scriptPath: {
         var url = Qt.resolvedUrl("connectivity_status.sh").toString();
         if (url.indexOf("file://") === 0) {
-            return url.substring(7); // strip "file://"
+            return url.substring(7);
         }
         return url;
     }
 
-    // Process to retrieve connectivity details
     Process {
         id: statusProcess
         command: [root.scriptPath]
@@ -63,8 +60,10 @@ Rectangle {
 
         stdout: StdioCollector {
             onStreamFinished: {
+                const cleanedText = text.trim();
+                if (!cleanedText) return;
                 try {
-                    const data = JSON.parse(text.trim());
+                    const data = JSON.parse(cleanedText);
                     if (data) {
                         root.wifiIcon = data.network.icon || "wifi_off";
                         root.wifiText = data.network.text || "OFFLINE";
@@ -78,13 +77,12 @@ Rectangle {
                         root.btDeviceName = data.bluetooth.device_name || "";
                     }
                 } catch (e) {
-                    console.error("Failed to parse connectivity status JSON:", e);
+                    console.error("Failed to parse connectivity status JSON:", e, "Raw output:", cleanedText);
                 }
             }
         }
     }
 
-    // Processes to toggle states
     Process {
         id: wifiToggleProcess
         property string targetState: "on"
@@ -109,7 +107,6 @@ Rectangle {
         }
     }
 
-    // Refresh status periodically (every 3 seconds)
     Timer {
         id: refreshTimer
         interval: 3000
@@ -131,7 +128,6 @@ Rectangle {
         anchors.centerIn: parent
         spacing: 12
 
-        // Network Region
         MouseArea {
             id: networkArea
             width: networkLayout.width
@@ -180,7 +176,6 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
         }
 
-        // Bluetooth Region
         MouseArea {
             id: bluetoothArea
             width: bluetoothLayout.width

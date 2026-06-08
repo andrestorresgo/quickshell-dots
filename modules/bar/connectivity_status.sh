@@ -8,8 +8,6 @@ net_ssid=""
 net_text="OFFLINE"
 net_icon="wifi_off"
 
-# Get nmcli device status
-# Find connected or connecting devices
 device_info=$(nmcli -t -f DEVICE,TYPE,STATE,CONNECTION device | grep -E ":(connected|connecting)" 2>/dev/null)
 
 if [ -n "$device_info" ]; then
@@ -28,7 +26,6 @@ if [ -n "$device_info" ]; then
         fi
         net_text="${net_signal}%"
         
-        # WiFi strength icons
         if [ -z "$net_signal" ] || [ "$net_signal" -eq 0 ]; then
             net_icon="wifi_off"
         elif [ "$net_signal" -lt 25 ]; then
@@ -48,7 +45,6 @@ if [ -n "$device_info" ]; then
     fi
 fi
 
-# Check bluetooth
 bt_enabled=false
 bt_connected=false
 bt_devices_count=0
@@ -73,7 +69,17 @@ if systemctl is-active --quiet bluetooth 2>/dev/null; then
     fi
 fi
 
-# Output JSON
+if ! [[ "$net_signal" =~ ^[0-9]+$ ]]; then
+    net_signal=0
+fi
+
+if ! [[ "$bt_devices_count" =~ ^[0-9]+$ ]]; then
+    bt_devices_count=0
+fi
+
+net_ssid=$(echo -n "$net_ssid" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g')
+bt_device_name=$(echo -n "$bt_device_name" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g')
+
 cat <<EOF
 {
   "network": {
@@ -94,3 +100,4 @@ cat <<EOF
   }
 }
 EOF
+
