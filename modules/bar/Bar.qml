@@ -29,6 +29,7 @@ Variants {
                 item: island
                 Region { item: workspaces }
                 Region { item: keyboardLocale }
+                Region { item: nowPlaying }
                 Region { item: volumeAndBrightness }
                 Region { item: battery }
                 Region { item: connectivity }
@@ -47,6 +48,10 @@ Variants {
 
             KeyboardLocale {
                 id: keyboardLocale
+            }
+
+            NowPlaying {
+                id: nowPlaying
             }
 
             VolumeAndBrightness {
