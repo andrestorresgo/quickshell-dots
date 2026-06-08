@@ -35,6 +35,8 @@ Singleton {
     readonly property var fadeEasing: [0.34, 0.8, 0.34, 1.0, 1.0, 1.0]
 
     // Typography
+    readonly property string fontFamily: "JetBrainsMono Nerd Font Propo"
+    readonly property string fontFamilyWorkspaces: "" // Empty string defaults to system default font
     readonly property int fontWeightBold: Font.DemiBold
     readonly property int fontSizeTiny: 10
     readonly property int fontSizeSmall: 12

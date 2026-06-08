@@ -70,6 +70,7 @@ Rectangle {
                     anchors.centerIn: parent
                     text: root.getWorkspaceDisplay(modelData.id)
                     color: modelData.focused ? Colours.text : (wsButton.containsMouse ? Colours.text : Colours.muted)
+                    font.family: Appearance.fontFamilyWorkspaces
                     font.pixelSize: Appearance.fontSizeMedium
                     font.weight: Appearance.fontWeightBold
 
