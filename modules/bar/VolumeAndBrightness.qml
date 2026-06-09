@@ -9,11 +9,9 @@ import "../../components"
 Rectangle {
     id: root
 
-    // Color/Radius Styling
     color: Colours.background
     radius: height / 2
 
-    // Placement in the bar (anchored to the top-right corner)
     anchors {
         right: parent.right
         top: parent.top
@@ -21,7 +19,6 @@ Rectangle {
         rightMargin: Appearance.widgetMarginLeft
     }
 
-    // Dynamic Sizing
     width: implicitWidth
     height: implicitHeight
     implicitWidth: mainLayout.width + Appearance.widgetPaddingHorizontal
@@ -45,7 +42,7 @@ Rectangle {
 
     Timer {
         id: osdTimer
-        interval: 2500
+        interval: Appearance.osdTimer
         onTriggered: root.state = "normal"
     }
 
@@ -71,13 +68,11 @@ Rectangle {
         }
     }
 
-    // Tracker to ensure PipeWire sink properties are actively updated
     PwObjectTracker {
         id: audioTracker
         objects: Pipewire.defaultAudioSink ? [Pipewire.defaultAudioSink] : []
     }
 
-    // Volume Interaction Functions
     function toggleMute(): void {
         const audio = Pipewire.defaultAudioSink?.audio;
         if (audio) {
@@ -95,7 +90,6 @@ Rectangle {
         }
     }
 
-    // Brightness Interaction Functions
     function adjustBrightness(changeStr: string): void {
         setBrightnessProcess.running = false;
         setBrightnessProcess.change = changeStr;
@@ -121,7 +115,6 @@ Rectangle {
         return icons[index];
     }
 
-    // Process to get current brightness
     Process {
         id: getBrightnessProcess
         command: ["brightnessctl", "-m"]
@@ -140,7 +133,6 @@ Rectangle {
         }
     }
 
-    // Process to monitor udev backlight changes (event-driven brightness)
     Process {
         id: monitorBrightnessProcess
         command: ["udevadm", "monitor", "--subsystem=backlight"]
@@ -155,7 +147,6 @@ Rectangle {
         }
     }
 
-    // Process to adjust brightness
     Process {
         id: setBrightnessProcess
         property string change: ""
@@ -170,7 +161,6 @@ Rectangle {
 
         Behavior on spacing { NumberAnimation { duration: 250; easing.type: Easing.InOutQuad } }
 
-        // Volume Controller Region
         MouseArea {
             id: volumeArea
             width: root.state === "brightness" ? 0 : volumeLayout.width
@@ -180,7 +170,10 @@ Rectangle {
             cursorShape: Qt.PointingHandCursor
             clip: true
 
-            Behavior on width { NumberAnimation { duration: 250; easing.type: Easing.InOutQuad } }
+            Behavior on width {
+                enabled: root.state === "brightness" || volumeArea.width === 0
+                NumberAnimation { duration: 250; easing.type: Easing.InOutQuad }
+            }
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             onClicked: {
@@ -223,7 +216,6 @@ Rectangle {
                     Behavior on width { NumberAnimation { duration: 250; easing.type: Easing.InOutQuad } }
                 }
 
-                // Volume Progress Bar
                 Rectangle {
                     id: volumeProgressBar
                     width: root.state === "volume" ? 120 : 0
@@ -277,7 +269,6 @@ Rectangle {
             Behavior on opacity { NumberAnimation { duration: 200 } }
         }
 
-        // Brightness Controller Region
         MouseArea {
             id: brightnessArea
             width: root.state === "volume" ? 0 : brightnessLayout.width
@@ -287,7 +278,10 @@ Rectangle {
             cursorShape: Qt.PointingHandCursor
             clip: true
 
-            Behavior on width { NumberAnimation { duration: 250; easing.type: Easing.InOutQuad } }
+            Behavior on width {
+                enabled: root.state === "volume" || brightnessArea.width === 0
+                NumberAnimation { duration: 250; easing.type: Easing.InOutQuad }
+            }
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             onWheel: (wheel) => {
@@ -321,7 +315,6 @@ Rectangle {
                     Behavior on width { NumberAnimation { duration: 250; easing.type: Easing.InOutQuad } }
                 }
 
-                // Brightness Progress Bar
                 Rectangle {
                     id: brightnessProgressBar
                     width: root.state === "brightness" ? 120 : 0

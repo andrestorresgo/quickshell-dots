@@ -29,6 +29,7 @@ Singleton {
     readonly property int resizeDuration: 500
     readonly property int textFadeDuration: 150
     readonly property int columnFadeDuration: 200
+    readonly property int osdTimer: 1000
 
     // Animation Easing Curves
     readonly property var resizeEasing: [0.38, 1.21, 0.22, 1.0, 1.0, 1.0]
