@@ -33,6 +33,7 @@ Variants {
                 Region { item: volumeAndBrightness }
                 Region { item: battery }
                 Region { item: connectivity }
+                Region { item: tray }
             }
 
             WlrLayershell.layer: WlrLayershell.Overlay
@@ -64,6 +65,11 @@ Variants {
 
             Connectivity {
                 id: connectivity
+            }
+
+            Tray {
+                id: tray
+                window: rootWindow
             }
         }
     }
