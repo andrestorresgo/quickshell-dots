@@ -14,6 +14,7 @@ Rectangle {
         top: parent.top
         topMargin: Appearance.widgetMarginTop
         leftMargin: root.active ? Appearance.widgetMarginLeft : 0
+        bottomMargin: Appearance.widgetMarginBottom
     }
 
     // Expose active state to drive visibility
@@ -23,7 +24,7 @@ Rectangle {
     width: implicitWidth
     height: Appearance.widgetHeight
     implicitWidth: active ? (mainLayout.width + Appearance.widgetPaddingHorizontal) : 0
-    radius: height / 2
+    radius: Appearance.widgetCornerRadius
     color: Colours.background
     clip: true
 

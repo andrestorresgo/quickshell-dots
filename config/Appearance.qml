@@ -9,12 +9,13 @@ Singleton {
 
     // Window Properties
     readonly property int windowHeight: 160
-    readonly property int exclusiveZone: widgetHeight + widgetMarginTop
+    readonly property int exclusiveZone: widgetHeight + widgetMarginTop + widgetMarginBottom
 
     // Standard Widget Dimensions & Spacing
-    readonly property int widgetHeight: 40
+    readonly property int widgetHeight: 36
     readonly property int widgetPaddingHorizontal: 24
-    readonly property int widgetMarginTop: 8
+    readonly property int widgetMarginTop: 12
+    readonly property int widgetMarginBottom: 8
     readonly property int widgetMarginLeft: 8
     readonly property int widgetMarginRight: 8
 
@@ -24,6 +25,7 @@ Singleton {
 
     // Corner Radii
     readonly property int maxCornerRadius: 26
+    readonly property int widgetCornerRadius: 8
 
     // Animations (Durations in ms)
     readonly property int resizeDuration: 500

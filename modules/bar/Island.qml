@@ -16,12 +16,13 @@ Rectangle {
         top: parent.top
         topMargin: Appearance.widgetMarginTop
         leftMargin: Appearance.widgetMarginLeft
+        bottomMargin: Appearance.widgetMarginBottom
     }
     width: implicitWidth
     height: implicitHeight
     implicitWidth: expanded ? Appearance.islandWidthExpanded : (collapsedView.width + Appearance.widgetPaddingHorizontal)
     implicitHeight: expanded ? Appearance.islandHeightExpanded : Appearance.widgetHeight
-    radius: Math.min(height / 2, Appearance.maxCornerRadius)
+    radius: expanded ? Appearance.maxCornerRadius : Appearance.widgetCornerRadius
 
     // Styling
     color: Colours.background

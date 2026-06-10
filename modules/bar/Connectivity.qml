@@ -13,6 +13,7 @@ Rectangle {
         top: parent.top
         topMargin: Appearance.widgetMarginTop
         rightMargin: Appearance.widgetMarginRight
+        bottomMargin: Appearance.widgetMarginBottom
     }
 
     width: implicitWidth
@@ -20,7 +21,7 @@ Rectangle {
     implicitWidth: mainLayout.width + Appearance.widgetPaddingHorizontal
     implicitHeight: Appearance.widgetHeight
 
-    radius: height / 2
+    radius: Appearance.widgetCornerRadius
     color: Colours.background
 
     Behavior on implicitWidth {

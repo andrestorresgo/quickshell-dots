@@ -13,6 +13,7 @@ Rectangle {
         top: parent.top
         topMargin: Appearance.widgetMarginTop
         leftMargin: Appearance.widgetMarginLeft
+        bottomMargin: Appearance.widgetMarginBottom
     }
 
     // Dynamic Size Layout
@@ -22,7 +23,7 @@ Rectangle {
     implicitHeight: Appearance.widgetHeight
 
     // Styling
-    radius: height / 2
+    radius: Appearance.widgetCornerRadius
     color: Colours.background
 
     // Smooth Width Resize Behavior

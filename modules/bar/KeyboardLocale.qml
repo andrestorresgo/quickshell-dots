@@ -19,12 +19,13 @@ Rectangle {
         top: parent.top
         topMargin: Appearance.widgetMarginTop
         leftMargin: Appearance.widgetMarginLeft
+        bottomMargin: Appearance.widgetMarginBottom
     }
 
     width: implicitWidth
     height: Appearance.widgetHeight
     implicitWidth: expanded ? expandedLayout.width + Appearance.widgetPaddingHorizontal : collapsedLayout.width + Appearance.widgetPaddingHorizontal
-    radius: height / 2
+    radius: Appearance.widgetCornerRadius
     color: Colours.background
     clip: true
 

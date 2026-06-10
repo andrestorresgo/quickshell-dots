@@ -10,13 +10,14 @@ Rectangle {
     id: root
 
     color: Colours.background
-    radius: height / 2
+    radius: Appearance.widgetCornerRadius
 
     anchors {
         right: parent.right
         top: parent.top
         topMargin: Appearance.widgetMarginTop
         rightMargin: Appearance.widgetMarginLeft
+        bottomMargin: Appearance.widgetMarginBottom
     }
 
     width: implicitWidth
