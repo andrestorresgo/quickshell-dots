@@ -13,11 +13,11 @@ Singleton {
 
     // Standard Widget Dimensions & Spacing
     readonly property int widgetHeight: 36
-    readonly property int widgetPaddingHorizontal: 24
+    readonly property int widgetPaddingHorizontal: 32
     readonly property int widgetMarginTop: 12
-    readonly property int widgetMarginBottom: 8
-    readonly property int widgetMarginLeft: 8
-    readonly property int widgetMarginRight: 8
+    readonly property int widgetMarginBottom: 6
+    readonly property int widgetMarginLeft: 6
+    readonly property int widgetMarginRight: 6
 
     // Island Dimensions (Expanded)
     readonly property int islandWidthExpanded: 340
@@ -25,7 +25,7 @@ Singleton {
 
     // Corner Radii
     readonly property int maxCornerRadius: 26
-    readonly property int widgetCornerRadius: 8
+    readonly property int widgetCornerRadius: widgetHeight / 2
 
     // Animations (Durations in ms)
     readonly property int resizeDuration: 500
@@ -50,6 +50,6 @@ Singleton {
     readonly property int fontSizeXXLarge: 28
 
     // Spacing
-    readonly property int columnSpacing: 2
-    readonly property int iconTextSpacing: 6
+    readonly property int columnSpacing: 6
+    readonly property int iconTextSpacing: 8
 }
