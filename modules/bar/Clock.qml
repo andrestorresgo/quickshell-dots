@@ -20,8 +20,8 @@ Rectangle {
     }
     width: implicitWidth
     height: implicitHeight
-    implicitWidth: expanded ? Appearance.islandWidthExpanded : (collapsedView.width + Appearance.widgetPaddingHorizontal)
-    implicitHeight: expanded ? Appearance.islandHeightExpanded : Appearance.widgetHeight
+    implicitWidth: expanded ? Appearance.clockWidthExpanded : (collapsedView.width + Appearance.widgetPaddingHorizontal)
+    implicitHeight: expanded ? Appearance.clockHeightExpanded : Appearance.widgetHeight
     radius: expanded ? Appearance.maxCornerRadius : Appearance.widgetCornerRadius
 
     // Styling

@@ -9,7 +9,7 @@ Rectangle {
 
     // Position Anchors
     anchors {
-        left: island.right
+        left: clock.right
         top: parent.top
         topMargin: Appearance.widgetMarginTop
         leftMargin: Appearance.widgetMarginLeft

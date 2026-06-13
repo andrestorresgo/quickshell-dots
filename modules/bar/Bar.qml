@@ -26,7 +26,7 @@ Variants {
             exclusionMode: ExclusionMode.Normal
             color: Colours.transparent
             mask: Region {
-                item: island
+                item: clock
                 Region { item: workspaces }
                 Region { item: keyboardLocale }
                 Region { item: nowPlaying }
@@ -39,8 +39,8 @@ Variants {
             WlrLayershell.layer: WlrLayershell.Top
             WlrLayershell.exclusiveZone: Appearance.exclusiveZone
 
-            Island {
-                id: island
+            Clock {
+                id: clock
             }
 
             Workspaces {

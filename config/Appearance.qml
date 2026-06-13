@@ -19,9 +19,9 @@ Singleton {
     readonly property int widgetMarginLeft: 6
     readonly property int widgetMarginRight: 6
 
-    // Island Dimensions (Expanded)
-    readonly property int islandWidthExpanded: 340
-    readonly property int islandHeightExpanded: 120
+    // Clock Dimensions (Expanded)
+    readonly property int clockWidthExpanded: 340
+    readonly property int clockHeightExpanded: 120
 
     // Corner Radii
     readonly property int maxCornerRadius: 26
