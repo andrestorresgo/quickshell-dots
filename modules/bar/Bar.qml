@@ -36,7 +36,7 @@ Variants {
                 Region { item: tray }
             }
 
-            WlrLayershell.layer: WlrLayershell.Overlay
+            WlrLayershell.layer: WlrLayershell.Top
             WlrLayershell.exclusiveZone: Appearance.exclusiveZone
 
             Island {
