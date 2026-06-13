@@ -13,10 +13,25 @@ Rectangle {
     radius: Appearance.widgetCornerRadius
 
     opacity: FocusMode.active ? 0.0 : 1.0
-    visible: opacity > 0.0
+    visible: opacity > 0.0 || implicitWidth > 0
+
+    // Delays for outside-in transition
+    readonly property int focusDelay: 0
+    readonly property int normalDelay: 300
+
+    property bool useFocusTransitionDelay: false
+
+    Timer {
+        id: delayResetTimer
+        interval: 1000
+        onTriggered: root.useFocusTransitionDelay = false
+    }
 
     Behavior on opacity {
-        NumberAnimation { duration: 200 }
+        SequentialAnimation {
+            PauseAnimation { duration: root.useFocusTransitionDelay ? (FocusMode.active ? root.focusDelay : root.normalDelay) : 0 }
+            NumberAnimation { duration: 200 }
+        }
     }
 
     anchors {
@@ -29,8 +44,22 @@ Rectangle {
 
     width: implicitWidth
     height: implicitHeight
-    implicitWidth: mainLayout.width + Appearance.widgetPaddingHorizontal
+    readonly property int targetWidth: mainLayout.width + Appearance.widgetPaddingHorizontal
+    implicitWidth: FocusMode.active ? 0 : targetWidth
     implicitHeight: Appearance.widgetHeight
+
+    Behavior on implicitWidth {
+        SequentialAnimation {
+            PauseAnimation { duration: root.useFocusTransitionDelay ? (FocusMode.active ? root.focusDelay : root.normalDelay) : 0 }
+            NumberAnimation {
+                duration: Appearance.resizeDuration
+                easing {
+                    type: Easing.Bezier
+                    bezierCurve: Appearance.resizeEasing
+                }
+            }
+        }
+    }
 
     // State Variables
     readonly property real volume: Pipewire.defaultAudioSink?.audio?.volume ?? 0
@@ -158,6 +187,8 @@ Rectangle {
     Connections {
         target: FocusMode
         function onActiveChanged(): void {
+            root.useFocusTransitionDelay = true;
+            delayResetTimer.restart();
             if (!FocusMode.active) {
                 getBrightnessProcess.running = false;
                 getBrightnessProcess.running = true;

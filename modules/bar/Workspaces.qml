@@ -19,29 +19,54 @@ Rectangle {
     // Dynamic Size Layout
     width: implicitWidth
     height: implicitHeight
-    implicitWidth: mainLayout.width + Appearance.widgetPaddingHorizontal
+    readonly property int targetWidth: mainLayout.width + Appearance.widgetPaddingHorizontal
+    implicitWidth: FocusMode.active ? 0 : targetWidth
     implicitHeight: Appearance.widgetHeight
+
+    // Delays for outside-in transition
+    readonly property int focusDelay: 100
+    readonly property int normalDelay: 200
+
+    property bool useFocusTransitionDelay: false
+
+    Timer {
+        id: delayResetTimer
+        interval: 1000
+        onTriggered: root.useFocusTransitionDelay = false
+    }
+
+    Connections {
+        target: FocusMode
+        function onActiveChanged(): void {
+            root.useFocusTransitionDelay = true;
+            delayResetTimer.restart();
+        }
+    }
 
     // Styling
     radius: Appearance.widgetCornerRadius
     color: Colours.background
 
     opacity: FocusMode.active ? 0.0 : 1.0
-    visible: opacity > 0.0
+    visible: opacity > 0.0 || implicitWidth > 0
 
     Behavior on opacity {
-        NumberAnimation {
-            duration: 200
+        SequentialAnimation {
+            PauseAnimation { duration: root.useFocusTransitionDelay ? (FocusMode.active ? root.focusDelay : root.normalDelay) : 0 }
+            NumberAnimation { duration: 200 }
         }
     }
 
     // Smooth Width Resize Behavior
     Behavior on implicitWidth {
-        NumberAnimation {
-            duration: Appearance.resizeDuration
-            easing {
-                type: Easing.Bezier
-                bezierCurve: Appearance.resizeEasing
+        SequentialAnimation {
+            PauseAnimation { duration: root.useFocusTransitionDelay ? (FocusMode.active ? root.focusDelay : root.normalDelay) : 0 }
+            NumberAnimation {
+                duration: Appearance.resizeDuration
+                easing {
+                    type: Easing.Bezier
+                    bezierCurve: Appearance.resizeEasing
+                }
             }
         }
     }

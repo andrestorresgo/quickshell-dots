@@ -24,27 +24,52 @@ Rectangle {
 
     width: implicitWidth
     height: Appearance.widgetHeight
-    implicitWidth: expanded ? expandedLayout.width + Appearance.widgetPaddingHorizontal : collapsedLayout.width + Appearance.widgetPaddingHorizontal
+    readonly property int targetWidth: expanded ? expandedLayout.width + Appearance.widgetPaddingHorizontal : collapsedLayout.width + Appearance.widgetPaddingHorizontal
+    implicitWidth: FocusMode.active ? 0 : targetWidth
     radius: Appearance.widgetCornerRadius
     color: Colours.background
     clip: true
 
+    // Delays for outside-in transition
+    readonly property int focusDelay: 200
+    readonly property int normalDelay: 100
+
+    property bool useFocusTransitionDelay: false
+
+    Timer {
+        id: delayResetTimer
+        interval: 1000
+        onTriggered: root.useFocusTransitionDelay = false
+    }
+
+    Connections {
+        target: FocusMode
+        function onActiveChanged(): void {
+            root.useFocusTransitionDelay = true;
+            delayResetTimer.restart();
+        }
+    }
+
     opacity: FocusMode.active ? 0.0 : 1.0
-    visible: opacity > 0.0
+    visible: opacity > 0.0 || implicitWidth > 0
 
     Behavior on opacity {
-        NumberAnimation {
-            duration: 200
+        SequentialAnimation {
+            PauseAnimation { duration: root.useFocusTransitionDelay ? (FocusMode.active ? root.focusDelay : root.normalDelay) : 0 }
+            NumberAnimation { duration: 200 }
         }
     }
 
     // Smooth Width Transition behavior matching clock/workspaces
     Behavior on implicitWidth {
-        NumberAnimation {
-            duration: Appearance.resizeDuration
-            easing {
-                type: Easing.Bezier
-                bezierCurve: Appearance.resizeEasing
+        SequentialAnimation {
+            PauseAnimation { duration: root.useFocusTransitionDelay ? (FocusMode.active ? root.focusDelay : root.normalDelay) : 0 }
+            NumberAnimation {
+                duration: Appearance.resizeDuration
+                easing {
+                    type: Easing.Bezier
+                    bezierCurve: Appearance.resizeEasing
+                }
             }
         }
     }

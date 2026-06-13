@@ -20,17 +20,38 @@ Rectangle {
 
     width: implicitWidth
     height: implicitHeight
-    implicitWidth: mainLayout.width + Appearance.widgetPaddingHorizontal
+    readonly property int targetWidth: mainLayout.width + Appearance.widgetPaddingHorizontal
+    implicitWidth: FocusMode.active ? 0 : targetWidth
     implicitHeight: Appearance.widgetHeight
 
     radius: Appearance.widgetCornerRadius
     color: Colours.background
 
+    // Delays for outside-in transition
+    readonly property int focusDelay: 100
+    readonly property int normalDelay: 200
+
     opacity: FocusMode.active ? 0.0 : 1.0
-    visible: opacity > 0.0
+    visible: opacity > 0.0 || implicitWidth > 0
 
     Behavior on opacity {
-        NumberAnimation { duration: 200 }
+        SequentialAnimation {
+            PauseAnimation { duration: FocusMode.active ? root.focusDelay : root.normalDelay }
+            NumberAnimation { duration: 200 }
+        }
+    }
+
+    Behavior on implicitWidth {
+        SequentialAnimation {
+            PauseAnimation { duration: FocusMode.active ? root.focusDelay : root.normalDelay }
+            NumberAnimation {
+                duration: Appearance.resizeDuration
+                easing {
+                    type: Easing.Bezier
+                    bezierCurve: Appearance.resizeEasing
+                }
+            }
+        }
     }
 
     function getWidgetColor(): color {

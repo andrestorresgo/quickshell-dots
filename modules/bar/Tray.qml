@@ -22,25 +22,52 @@ Rectangle {
     width: implicitWidth
     height: implicitHeight
 
-    visible: (repeater.count > 0) && (opacity > 0.0)
-    implicitWidth: repeater.count > 0 ? (mainLayout.width + Appearance.widgetPaddingHorizontal) : 0
+    visible: (repeater.count > 0) && (opacity > 0.0 || implicitWidth > 0)
+    readonly property int targetWidth: repeater.count > 0 ? (mainLayout.width + Appearance.widgetPaddingHorizontal) : 0
+    implicitWidth: FocusMode.active ? 0 : targetWidth
     implicitHeight: Appearance.widgetHeight
 
     radius: Appearance.widgetCornerRadius
     color: Colours.background
 
+    // Delays for outside-in transition
+    readonly property int focusDelay: 300
+    readonly property int normalDelay: 0
+
+    property bool useFocusTransitionDelay: false
+
+    Timer {
+        id: delayResetTimer
+        interval: 1000
+        onTriggered: root.useFocusTransitionDelay = false
+    }
+
+    Connections {
+        target: FocusMode
+        function onActiveChanged(): void {
+            root.useFocusTransitionDelay = true;
+            delayResetTimer.restart();
+        }
+    }
+
     opacity: FocusMode.active ? 0.0 : 1.0
 
     Behavior on opacity {
-        NumberAnimation { duration: 200 }
+        SequentialAnimation {
+            PauseAnimation { duration: root.useFocusTransitionDelay ? (FocusMode.active ? root.focusDelay : root.normalDelay) : 0 }
+            NumberAnimation { duration: 200 }
+        }
     }
 
     Behavior on implicitWidth {
-        NumberAnimation {
-            duration: Appearance.resizeDuration
-            easing {
-                type: Easing.Bezier
-                bezierCurve: Appearance.resizeEasing
+        SequentialAnimation {
+            PauseAnimation { duration: root.useFocusTransitionDelay ? (FocusMode.active ? root.focusDelay : root.normalDelay) : 0 }
+            NumberAnimation {
+                duration: Appearance.resizeDuration
+                easing {
+                    type: Easing.Bezier
+                    bezierCurve: Appearance.resizeEasing
+                }
             }
         }
     }

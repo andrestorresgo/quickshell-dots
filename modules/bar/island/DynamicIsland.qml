@@ -84,16 +84,22 @@ Rectangle {
         id: announcementTimer
         property bool finished: false
         interval: 1200 // 1.2 seconds announcement
-        running: FocusMode.active
-        
-        onRunningChanged: {
-            if (!running && !FocusMode.active) {
-                finished = false;
-            }
-        }
         
         onTriggered: {
             finished = true;
+        }
+    }
+
+    Connections {
+        target: FocusMode
+        function onActiveChanged(): void {
+            if (FocusMode.active) {
+                announcementTimer.finished = false;
+                announcementTimer.restart();
+            } else {
+                announcementTimer.stop();
+                announcementTimer.finished = false;
+            }
         }
     }
 

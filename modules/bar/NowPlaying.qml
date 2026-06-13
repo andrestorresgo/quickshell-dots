@@ -23,21 +23,45 @@ Rectangle {
     // Dynamic sizing matching status bar design tokens
     width: implicitWidth
     height: Appearance.widgetHeight
-    implicitWidth: active ? (mainLayout.width + Appearance.widgetPaddingHorizontal) : 0
+    readonly property int targetWidth: active ? (mainLayout.width + Appearance.widgetPaddingHorizontal) : 0
+    implicitWidth: FocusMode.active ? 0 : targetWidth
     radius: Appearance.widgetCornerRadius
     color: Colours.background
     clip: true
+
+    // Delays for outside-in transition
+    readonly property int focusDelay: 300
+    readonly property int normalDelay: 0
+
+    property bool useFocusTransitionDelay: false
+
+    Timer {
+        id: delayResetTimer
+        interval: 1000
+        onTriggered: root.useFocusTransitionDelay = false
+    }
+
+    Connections {
+        target: FocusMode
+        function onActiveChanged(): void {
+            root.useFocusTransitionDelay = true;
+            delayResetTimer.restart();
+        }
+    }
 
     // Hover state to provide visual feedback
     readonly property bool isHovered: mouseArea.containsMouse
 
     // Smooth width transition matching the other modules
     Behavior on implicitWidth {
-        NumberAnimation {
-            duration: Appearance.resizeDuration
-            easing {
-                type: Easing.Bezier
-                bezierCurve: Appearance.resizeEasing
+        SequentialAnimation {
+            PauseAnimation { duration: root.useFocusTransitionDelay ? (FocusMode.active ? root.focusDelay : root.normalDelay) : 0 }
+            NumberAnimation {
+                duration: Appearance.resizeDuration
+                easing {
+                    type: Easing.Bezier
+                    bezierCurve: Appearance.resizeEasing
+                }
             }
         }
     }
@@ -56,7 +80,12 @@ Rectangle {
     visible: implicitWidth > 0 && opacity > 0.0
     opacity: (active && !FocusMode.active) ? 1.0 : 0.0
     Behavior on opacity {
-        NumberAnimation { duration: Appearance.textFadeDuration }
+        SequentialAnimation {
+            PauseAnimation { duration: root.useFocusTransitionDelay ? (FocusMode.active ? root.focusDelay : root.normalDelay) : 0 }
+            NumberAnimation {
+                duration: Appearance.textFadeDuration
+            }
+        }
     }
 
     MouseArea {
