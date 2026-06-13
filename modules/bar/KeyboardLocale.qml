@@ -29,6 +29,15 @@ Rectangle {
     color: Colours.background
     clip: true
 
+    opacity: FocusMode.active ? 0.0 : 1.0
+    visible: opacity > 0.0
+
+    Behavior on opacity {
+        NumberAnimation {
+            duration: 200
+        }
+    }
+
     // Smooth Width Transition behavior matching clock/workspaces
     Behavior on implicitWidth {
         NumberAnimation {

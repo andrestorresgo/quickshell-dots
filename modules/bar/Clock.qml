@@ -28,7 +28,16 @@ Rectangle {
     color: Colours.background
     clip: true
 
+    opacity: FocusMode.active ? 0.0 : 1.0
+    visible: opacity > 0.0
+
     // Size Transition Behaviors
+    Behavior on opacity {
+        NumberAnimation {
+            duration: 200
+        }
+    }
+
     Behavior on implicitWidth {
         NumberAnimation {
             duration: Appearance.resizeDuration

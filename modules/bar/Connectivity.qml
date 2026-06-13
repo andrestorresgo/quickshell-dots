@@ -24,6 +24,13 @@ Rectangle {
     radius: Appearance.widgetCornerRadius
     color: Colours.background
 
+    opacity: FocusMode.active ? 0.0 : 1.0
+    visible: opacity > 0.0
+
+    Behavior on opacity {
+        NumberAnimation { duration: 200 }
+    }
+
     Behavior on implicitWidth {
         NumberAnimation {
             duration: Appearance.resizeDuration
@@ -111,11 +118,21 @@ Rectangle {
     Timer {
         id: refreshTimer
         interval: 3000
-        running: true
+        running: !FocusMode.active
         repeat: true
         onTriggered: {
             statusProcess.running = false;
             statusProcess.running = true;
+        }
+    }
+
+    Connections {
+        target: FocusMode
+        function onActiveChanged(): void {
+            if (!FocusMode.active) {
+                statusProcess.running = false;
+                statusProcess.running = true;
+            }
         }
     }
 

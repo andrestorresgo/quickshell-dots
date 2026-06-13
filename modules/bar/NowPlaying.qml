@@ -52,9 +52,9 @@ Rectangle {
         Behavior on opacity { NumberAnimation { duration: 150 } }
     }
 
-    // Collapse to exactly 0 pixels and hide natively when Spotify is not active
-    visible: implicitWidth > 0
-    opacity: active ? 1.0 : 0.0
+    // Collapse to exactly 0 pixels and hide natively when Spotify is not active or Focus Mode is active
+    visible: implicitWidth > 0 && opacity > 0.0
+    opacity: (active && !FocusMode.active) ? 1.0 : 0.0
     Behavior on opacity {
         NumberAnimation { duration: Appearance.textFadeDuration }
     }

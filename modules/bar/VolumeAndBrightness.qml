@@ -12,6 +12,13 @@ Rectangle {
     color: Colours.background
     radius: Appearance.widgetCornerRadius
 
+    opacity: FocusMode.active ? 0.0 : 1.0
+    visible: opacity > 0.0
+
+    Behavior on opacity {
+        NumberAnimation { duration: 200 }
+    }
+
     anchors {
         right: parent.right
         top: parent.top
@@ -137,11 +144,21 @@ Rectangle {
     Process {
         id: monitorBrightnessProcess
         command: ["udevadm", "monitor", "--subsystem=backlight"]
-        running: true
+        running: !FocusMode.active
 
         stdout: SplitParser {
             splitMarker: "\n"
             onRead: (data) => {
+                getBrightnessProcess.running = false;
+                getBrightnessProcess.running = true;
+            }
+        }
+    }
+
+    Connections {
+        target: FocusMode
+        function onActiveChanged(): void {
+            if (!FocusMode.active) {
                 getBrightnessProcess.running = false;
                 getBrightnessProcess.running = true;
             }

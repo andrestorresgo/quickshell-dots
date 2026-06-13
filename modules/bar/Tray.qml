@@ -22,12 +22,18 @@ Rectangle {
     width: implicitWidth
     height: implicitHeight
 
-    visible: repeater.count > 0
+    visible: (repeater.count > 0) && (opacity > 0.0)
     implicitWidth: repeater.count > 0 ? (mainLayout.width + Appearance.widgetPaddingHorizontal) : 0
     implicitHeight: Appearance.widgetHeight
 
     radius: Appearance.widgetCornerRadius
     color: Colours.background
+
+    opacity: FocusMode.active ? 0.0 : 1.0
+
+    Behavior on opacity {
+        NumberAnimation { duration: 200 }
+    }
 
     Behavior on implicitWidth {
         NumberAnimation {

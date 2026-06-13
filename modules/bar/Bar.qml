@@ -3,6 +3,7 @@ import Quickshell
 import Quickshell.Wayland
 import "../../config"
 import "../../services"
+import "island"
 
 Variants {
     model: Quickshell.screens
@@ -26,7 +27,8 @@ Variants {
             exclusionMode: ExclusionMode.Normal
             color: Colours.transparent
             mask: Region {
-                item: clock
+                item: dynamicIsland
+                Region { item: clock }
                 Region { item: workspaces }
                 Region { item: keyboardLocale }
                 Region { item: nowPlaying }
@@ -38,6 +40,10 @@ Variants {
 
             WlrLayershell.layer: WlrLayershell.Top
             WlrLayershell.exclusiveZone: Appearance.exclusiveZone
+
+            DynamicIsland {
+                id: dynamicIsland
+            }
 
             Clock {
                 id: clock
